@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cifar10-flask-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cifar10-flask
+  template:
+    metadata:
+      labels:
+        app: cifar10-flask
+    spec:
+      containers:
+      - name: cifar10-flask
+        image: stevensbohorquez/cifar10-flask-docker:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

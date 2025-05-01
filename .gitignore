@@ -1,0 +1,9 @@
+venv/
+.dockerignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.DS_Store
+*.docx
+README.docx\~.docx
