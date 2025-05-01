@@ -9,7 +9,7 @@ import numpy as np
 # Crear la aplicación Flask
 app = Flask(__name__)
 
-# Definir el modelo (es exactamente el mismo que en el entrenamiento)
+# Definir el modelo
 def get_model():
     net = nn.Sequential()
     net.add(
@@ -30,26 +30,25 @@ def load_model():
 def predict():
     if request.method == "POST":
         if 'img' in request.files:
-            # Leer la imagen enviada
+            # imagen enviada
             img = Image.open(io.BytesIO(request.files['img'].read()))
             
             # Redimensionar la imagen a 32x32 (o el tamaño adecuado)
-            img = img.resize((32, 32))  # Cambia esto si tu modelo espera otro tamaño
+            img = img.resize((32, 32)) 
             
             # Convertir la imagen a un arreglo de NumPy
             img = np.array(img)
             
             # Asegurarse de que la imagen tenga 3 canales (RGB)
-            if img.shape[2] == 4:  # Si es RGBA, convertimos a RGB
+            if img.shape[2] == 4: 
                 img = img[:, :, :3]
             
             # Convertir a un tensor MXNet
-            img = nd.array(img).astype(np.float32)  # Asegurarse de que sea tipo float32
-            img = img.transpose((2, 0, 1))  # Convertir a formato (canales, alto, ancho)
-            img = img.expand_dims(axis=0)  # Agregar la dimensión del batch
+            img = nd.array(img).astype(np.float32) 
+            img = img.transpose((2, 0, 1))  
+            img = img.expand_dims(axis=0)  
             
-            # Normalizar los valores de los píxeles entre 0 y 1
-            img = img / 255.0  # Normalización típica para imágenes de 0-255
+            img = img / 255.0  
             
             # Cargar el modelo
             net = load_model()
@@ -58,7 +57,7 @@ def predict():
             pred = net(img)
             predicted_class = int(nd.argmax(pred, axis=1).asscalar())  # Obtener la clase predicha
             
-            # Nombres de las clases (ajústalos si es necesario)
+            # Nombres de las clases 
             class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
             prediction = class_names[predicted_class]
 
@@ -73,4 +72,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0") # Cambiado a host="0.0.0.0" para que sea accesible desde cualquier IP
+    app.run(debug=True, host="0.0.0.0")

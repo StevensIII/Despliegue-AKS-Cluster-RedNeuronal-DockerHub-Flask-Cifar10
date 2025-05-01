@@ -49,7 +49,7 @@ def train_cifar10_model():
 
     # Guardar los parámetros entrenados
     net.save_parameters('model/cifar10_model.params')
-    # net.export("cifar10_model")  # Esto guardará tanto el modelo como los parámetros
+    # net.export("cifar10_model")  
 
 if __name__ == "__main__":
     train_cifar10_model()
